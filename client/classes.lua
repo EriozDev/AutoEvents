@@ -4,7 +4,7 @@ AutoEventsManager.__index = AutoEventsManager
 
 local __instance = {
     __index = AutoEventsManager,
-    __type = 'CAutoEvent'
+    __type = 'AutoEventsManager'
 }
 
 ---@param uid string
