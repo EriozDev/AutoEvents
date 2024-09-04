@@ -9,7 +9,7 @@ local __instance = {
 
 ---@param uid string
 function AutoEventsManager.New(uid)
-    local self = setmetatable({}, __instance)
+    local self = setmetatable({}, __instance);
 
     self.EventUniqueId = uid
     return self
