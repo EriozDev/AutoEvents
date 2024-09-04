@@ -23,3 +23,9 @@ RegisterNetEvent('TOBI::colis:stop:sync', function()
         AutoEventsManager.StopByUniqueId('colis')
     end
 end)
+
+RegisterNetEvent('TOBI:colis:onStart', function()
+end)
+
+RegisterNetEvent('TOBI:colis:onStop', function()
+end)
