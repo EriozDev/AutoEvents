@@ -101,7 +101,7 @@ function Event.Colis(VehicleModel)
                 goto skip
             end
 
-            if CPlayer.Vehicle == 0 then
+            if CPlayer.Vehicle ~= 0 then
                 goto skip
             end
 
