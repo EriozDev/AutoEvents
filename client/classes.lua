@@ -16,13 +16,14 @@ function AutoEventsManager.New(uid)
 end
 
 function AutoEventsManager:Start()
-    if (self.EventUniqueId) then
-        AutoEventOn[self.EventUniqueId] = true
-        TriggerEvent('TOBI:colis:onStart')
-        TOBI.EmitServer(('TOBI:autoevent:%s:start'):format(self.EventUniqueId))
-    else
+    if not self.EventUniqueId then
         IO.Debug('autoevent unique id is nil!')
+        return
     end
+
+    AutoEventOn[self.EventUniqueId] = true
+    TriggerEvent('TOBI:colis:onStart')
+    TOBI.EmitServer(('TOBI:autoevent:%s:start'):format(self.EventUniqueId))
 end
 
 function AutoEventsManager:Stop()
@@ -58,12 +59,12 @@ function AutoEventsManager.IsOnByUniqueId(uid)
     return false
 end
 
-function AutoEventsManager:OnStart()
-    AddEventHandler('TOBI:colis:onStart'):format(self.EventUniqueId)
+function AutoEventsManager:OnStart(cb)
+    AddEventHandler('TOBI:colis:onStart', cb(...)):format(self.EventUniqueId)
 end
 
-function AutoEventsManager:OnStop()
-    AddEventHandler('TOBI:colis:onStop'):format(self.EventUniqueId)
+function AutoEventsManager:OnStop(cb)
+    AddEventHandler('TOBI:colis:onStop', cb(...)):format(self.EventUniqueId)
 end
 
 TOBI.Classes.CAutoEvent = AutoEventsManager
