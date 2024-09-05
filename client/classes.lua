@@ -7,12 +7,31 @@ local __instance = {
     __type = 'AutoEventsManager'
 }
 
+local eventNames = {
+    'colis',
+    'eliminations'
+}
+
 ---@param uid string
 function AutoEventsManager.New(uid)
-    local self = setmetatable({}, __instance);
+    local eventExists = false
 
-    self.EventUniqueId = uid
-    return self
+    for i = 1, #eventNames do
+        if eventNames[i] == uid then
+            eventExists = true
+            break
+        end
+    end
+
+    if (eventExists) then
+        local self = setmetatable({}, __instance);
+
+        self.EventUniqueId = uid
+        return self
+    end
+
+    local error = CFG.Errors['autoevent:error:eventDoesNotExist']
+    IO.Debug(error)
 end
 
 function AutoEventsManager:Start()
@@ -22,12 +41,12 @@ function AutoEventsManager:Start()
     end
 
     AutoEventOn[self.EventUniqueId] = true
-    TriggerEvent('TOBI:colis:onStart')
+    TriggerEvent('TOBI:%s:onStart'):format(self.EventUniqueId)
     TOBI.EmitServer(('TOBI:autoevent:%s:start'):format(self.EventUniqueId))
 end
 
 function AutoEventsManager:Stop()
-    TriggerEvent('TOBI:colis:onStop')
+    TriggerEvent('TOBI:%s:onStop'):format(self.EventUniqueId)
     TOBI.EmitServer('TOBI:autoevent:%s:stop'):format(self.EventUniqueId)
     AutoEventOn[self.EventUniqueId] = false
 end

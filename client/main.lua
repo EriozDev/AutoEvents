@@ -6,6 +6,14 @@ Citizen.CreateThread(function()
     end
 end)
 
+Citizen.CreateThread(function()
+    while true do
+        Wait(CFG.Eliminations.TimeInterval)
+        local event = AutoEventsManager.New('eliminations')
+        event:Start()
+    end
+end)
+
 RegisterCommand('event_start', function(src, args, rawCommand)
     TOBI.TriggerServerCallback('TOBI:CheckGroupStaff', function(group, cb)
         if group == 'superadmin' or group == 'owner' or group == 'dev' then

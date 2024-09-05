@@ -37,3 +37,16 @@ RegisterNetEvent('TOBI:autoevent:colis:stop', function()
     end
 end)
 
+RegisterNetEvent('TOBI:autoevent:eliminations:start', function()
+    local Players = TOBI.GetPlayers()
+    for i = 1, #Players do
+        local player = TOBI.GetPlayerFromId(Players[i])
+        local playerJob2 = player:getJob2()
+        if playerJob2 ~= 'unemployed2' then
+            TriggerClientEvent('TOBI:eliminations:start', player:src())
+            TriggerClientEvent('TOBI:showNotification', player:src(),
+                '~r~Lester~s~: J\'ai besoin que tu élimines un gars. Je te mets le GPS')
+            TriggerClientEvent('TOBI:freemod', player:src(), '~y~Event~s~', 'Eliminations', 5)
+        end
+    end
+end)
