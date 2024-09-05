@@ -57,7 +57,6 @@ function StartVehicleEngineSmoke(vehicle)
 end
 
 local ColisActive = false
-local Scenario = false
 function Event.Colis(VehicleModel)
     ColisActive = true
     local possibleVehiclesPosition = CFG.Colis.PossibleVehiclePosition
@@ -97,39 +96,42 @@ function Event.Colis(VehicleModel)
             Citizen.Wait(0)
 
             local dst = #(CPlayer.Coords - positionVehicle)
-            Scenario = true
 
-            if dst < 20.0 then
-                SpawnColis(Colis)
-                TOBI.Draw(vector3(colisPos.x, colisPos.y, colisPos.z + 0.25), '~b~[E]~y~ Ramassez le colis', 1.2, 0)
-                if dst < 5 then
-                    if IsControlJustPressed(0, 51) then
-                        if CPlayer.Vehicle == 0 then
-                            local dict, anim = 'weapons@first_person@aim_rng@generic@projectile@sticky_bomb@', 'plant_floor'
-                            while not HasAnimDictLoaded(dict) do
-                                Citizen.Wait(100)
-                            end
-                            TaskPlayAnim(CPlayer.Ped, dict, anim, 8.0, 1.0, 1000, 16, 0.0, false, false, false)
-                            Citizen.Wait(1500)
-                            ClearPedTasks(CPlayer.Ped)
-                            PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', false)
-                            RemoveBlip(blip)
-                            RemoveBlip(blip2)
-                            Citizen.Wait(1000)
-                            for k, v in pairs(PropsCreated) do
-                                DeleteEntity(v)
-                            end
-                            Citizen.Wait(1500)
-                            DeleteEntity(Colis)
-                            ColisActive = false
+            if dst >= 20.0 then
+                goto skip
+            end
 
-                            TOBI.EmitServer('TOBI:colis:stop')
-                        else
-                            GAME.ShowNotification('~~r~Action Impossible~s~ : Dans un véhicule !')
-                        end
+            if CPlayer.Vehicle == 0 then
+                goto skip
+            end
+
+            SpawnColis(Colis)
+            TOBI.Draw(vector3(colisPos.x, colisPos.y, colisPos.z + 0.25), '~b~[E]~y~ Ramassez le colis', 1.2, 0)
+            if dst < 5 then
+                if IsControlJustPressed(0, 51) then
+                    local dict, anim = 'weapons@first_person@aim_rng@generic@projectile@sticky_bomb@', 'plant_floor'
+                    while not HasAnimDictLoaded(dict) do
+                        Citizen.Wait(100)
                     end
+                    TaskPlayAnim(CPlayer.Ped, dict, anim, 8.0, 1.0, 1000, 16, 0.0, false, false, false)
+                    Citizen.Wait(1500)
+                    ClearPedTasks(CPlayer.Ped)
+                    PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', false)
+                    RemoveBlip(blip)
+                    RemoveBlip(blip2)
+                    Citizen.Wait(1000)
+                    for k, v in pairs(PropsCreated) do
+                        DeleteEntity(v)
+                    end
+                    Citizen.Wait(1500)
+                    DeleteEntity(Colis)
+                    ColisActive = false
+
+                    TOBI.EmitServer('TOBI:colis:stop')
                 end
             end
+
+            :: skip ::
         end
     end)
 

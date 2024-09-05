@@ -60,11 +60,11 @@ function AutoEventsManager.IsOnByUniqueId(uid)
 end
 
 function AutoEventsManager:OnStart(cb)
-    AddEventHandler('TOBI:colis:onStart', cb(...)):format(self.EventUniqueId)
+    AddEventHandler('TOBI:%s:onStart', cb(...)):format(self.EventUniqueId)
 end
 
 function AutoEventsManager:OnStop(cb)
-    AddEventHandler('TOBI:colis:onStop', cb(...)):format(self.EventUniqueId)
+    AddEventHandler('TOBI:%s:onStop', cb(...)):format(self.EventUniqueId)
 end
 
 TOBI.Classes.CAutoEvent = AutoEventsManager
