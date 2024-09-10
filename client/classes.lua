@@ -40,7 +40,6 @@ function AutoEventsManager:Start()
         return
     end
 
-    print(self.EventUniqueId)
     AutoEventOn[self.EventUniqueId] = true
     TriggerEvent(('TOBI:%s:onStart'):format(self.EventUniqueId))
     TOBI.EmitServer(('TOBI:autoevent:%s:start'):format(self.EventUniqueId))
