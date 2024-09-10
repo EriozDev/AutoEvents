@@ -40,8 +40,9 @@ function AutoEventsManager:Start()
         return
     end
 
+    print(self.EventUniqueId)
     AutoEventOn[self.EventUniqueId] = true
-    TriggerEvent('TOBI:%s:onStart'):format(self.EventUniqueId)
+    TriggerEvent(('TOBI:%s:onStart'):format(self.EventUniqueId))
     TOBI.EmitServer(('TOBI:autoevent:%s:start'):format(self.EventUniqueId))
 end
 
@@ -79,11 +80,11 @@ function AutoEventsManager.IsOnByUniqueId(uid)
 end
 
 function AutoEventsManager:OnStart(cb)
-    AddEventHandler('TOBI:%s:onStart', cb(...)):format(self.EventUniqueId)
+    AddEventHandler('TOBI:%s:onStart', cb()):format(self.EventUniqueId)
 end
 
 function AutoEventsManager:OnStop(cb)
-    AddEventHandler('TOBI:%s:onStop', cb(...)):format(self.EventUniqueId)
+    AddEventHandler('TOBI:%s:onStop', cb()):format(self.EventUniqueId)
 end
 
 TOBI.Classes.CAutoEvent = AutoEventsManager
