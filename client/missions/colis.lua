@@ -56,6 +56,16 @@ function StartVehicleEngineSmoke(vehicle)
     StartParticleFxLoopedOnEntity("exp_grd_bzgas_smoke", vehicle, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, false, false, false)
 end
 
+function PlayAnim()
+    local dict, anim = 'weapons@first_person@aim_rng@generic@projectile@sticky_bomb@', 'plant_floor'
+    while not HasAnimDictLoaded(dict) do
+        Citizen.Wait(100)
+    end
+    TaskPlayAnim(CPlayer.Ped, dict, anim, 8.0, 1.0, 1000, 16, 0.0, false, false, false)
+    Citizen.Wait(1500)
+    ClearPedTasks(CPlayer.Ped)
+end
+
 local ColisActive = false
 function Event.Colis(VehicleModel)
     ColisActive = true
@@ -109,13 +119,7 @@ function Event.Colis(VehicleModel)
             TOBI.Draw(vector3(colisPos.x, colisPos.y, colisPos.z + 0.25), '~b~[E]~y~ Ramassez le colis', 1.2, 0)
             if dst < 5 then
                 if IsControlJustPressed(0, 51) then
-                    local dict, anim = 'weapons@first_person@aim_rng@generic@projectile@sticky_bomb@', 'plant_floor'
-                    while not HasAnimDictLoaded(dict) do
-                        Citizen.Wait(100)
-                    end
-                    TaskPlayAnim(CPlayer.Ped, dict, anim, 8.0, 1.0, 1000, 16, 0.0, false, false, false)
-                    Citizen.Wait(1500)
-                    ClearPedTasks(CPlayer.Ped)
+                    PlayAnim()
                     PlaySoundFrontend(-1, 'PICK_UP', 'HUD_FRONTEND_DEFAULT_SOUNDSET', false)
                     RemoveBlip(blip)
                     RemoveBlip(blip2)
