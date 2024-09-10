@@ -24,7 +24,9 @@ function AutoEventsManager.New(uid)
     end
 
     if (eventExists) then
-        local self = setmetatable({}, __instance);
+        local self = {}
+
+        setmetatable(self, __instance);
 
         self.EventUniqueId = uid
         return self
