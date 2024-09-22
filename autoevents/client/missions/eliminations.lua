@@ -1,5 +1,9 @@
 local EliminationActive = false
 
+function Event.EndElimination()
+    --TODO ADD END
+end
+
 function Event.Eliminations()
     EliminationActive = true
 
@@ -30,19 +34,22 @@ function Event.Eliminations()
 
                 if not isPed then
                     EliminationActive = false
-                    --TODO ADD end event
+                    DeleteEntity(Npc)
+                    Event.EndElimination()
                     break
                 end
 
                 if not isPlayer then
                     EliminationActive = false
-                    --TODO ADD end event
+                    DeleteEntity(Npc)
+                    Event.EndElimination()
                     break
                 end
 
                 local playerId = NetworkGetPlayerIndexFromPed(killer)
 
-                --TODO ADD end event
+                DeleteEntity(Npc)
+                Event.EndElimination()
 
                 EliminationActive = false
             end
@@ -51,7 +58,8 @@ function Event.Eliminations()
 
     SetTimeout(CFG.Eliminations.TimeDuration, function()
         if not IsEntityDead(Npc) then
-            --TODO ADD end event
+            DeleteEntity(Npc)
+            Event.EndElimination()
         end
     end)
 end
