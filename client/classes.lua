@@ -33,23 +33,23 @@ function AutoEventsManager.New(uid)
     end
 
     local error = CFG.Errors['autoevent:error:eventDoesNotExist']
-    IO.Debug(error)
+    print(error)
 end
 
 function AutoEventsManager:Start()
     if not self.EventUniqueId then
-        IO.Debug('autoevent unique id is nil!')
+        print('autoevent unique id is nil!')
         return
     end
 
     AutoEventOn[self.EventUniqueId] = true
     TriggerEvent(('TOBI:%s:onStart'):format(self.EventUniqueId))
-    TOBI.EmitServer(('TOBI:autoevent:%s:start'):format(self.EventUniqueId))
+    TriggerServerEvent(('TOBI:autoevent:%s:start'):format(self.EventUniqueId))
 end
 
 function AutoEventsManager:Stop()
     TriggerEvent('TOBI:%s:onStop'):format(self.EventUniqueId)
-    TOBI.EmitServer('TOBI:autoevent:%s:stop'):format(self.EventUniqueId)
+    TriggerServerEvent('TOBI:autoevent:%s:stop'):format(self.EventUniqueId)
     AutoEventOn[self.EventUniqueId] = false
 end
 
@@ -58,7 +58,7 @@ function AutoEventsManager.StopByUniqueId(uid)
     if (uid) then
         TriggerEvent('TOBI:colis:onStop')
         local eventName = ('TOBI:autoevent:%s:stop'):format(uid)
-        TOBI.EmitServer(eventName)
+        TriggerServerEvent(eventName)
         AutoEventOn[uid] = true
     end
 end
@@ -87,5 +87,3 @@ end
 function AutoEventsManager:OnStop(cb)
     AddEventHandler('TOBI:%s:onStop', cb()):format(self.EventUniqueId)
 end
-
-TOBI.Classes.CAutoEvent = AutoEventsManager
